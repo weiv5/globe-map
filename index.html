@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>WebGL Globe</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+    <div id="container"></div>
+
+    <script type="text/javascript" src="third-party/Detector.js"></script>
+    <script type="text/javascript" src="third-party/three.min.js"></script>
+    <script type="text/javascript" src="globe.js"></script>
+    <script type="text/javascript">
+        var globe = DAT.Globe(document.getElementById('container'));
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'map.json', true);
+        xhr.onreadystatechange = function(e) {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    globe.addData(data);
+                    globe.animate();
+                    document.body.style.backgroundImage = 'none'; // remove loading
+                }
+            }
+        };
+        xhr.send(null);
+    </script>
+
+
+</body>
+
+</html>
