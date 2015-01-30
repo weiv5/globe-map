@@ -121,6 +121,7 @@ DAT.Globe = function(container, opts) {
 
         //地图
         var geometry = new THREE.SphereGeometry(radius, 40, 30);
+        /*
         shader = Shaders['earth'];
         uniforms = THREE.UniformsUtils.clone(shader.uniforms);
         uniforms['texture'].value = THREE.ImageUtils.loadTexture(imgDir + 'world.jpg');
@@ -133,8 +134,10 @@ DAT.Globe = function(container, opts) {
         mesh = new THREE.Mesh(geometry, material);
         mesh.rotation.y = Math.PI;
         scene.add(mesh);
+        */
 
         //阴影
+        /*
         shader = Shaders['atmosphere'];
         uniforms = THREE.UniformsUtils.clone(shader.uniforms);
         material = new THREE.ShaderMaterial({
@@ -146,9 +149,10 @@ DAT.Globe = function(container, opts) {
             transparent: true
 
         });
+        */
         mesh = new THREE.Mesh(geometry, material);
         mesh.scale.set(1.1, 1.1, 1.1);
-        scene.add(mesh);
+        //scene.add(mesh);
 
         geometry = new THREE.BoxGeometry(0.75, 0.75, 1);
         geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0, -0.5));
