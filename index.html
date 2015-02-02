@@ -21,8 +21,20 @@
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     var data = JSON.parse(xhr.responseText);
-                    globe.addData(data);
-                    globe.animate();
+                    globe.addArea(data);
+
+                    var xhr2 = new XMLHttpRequest();
+                    xhr2.open('GET', 'city.json', true);
+                    xhr2.onreadystatechange = function(e) {
+                        if (xhr2.readyState === 4) {
+                            if (xhr.status === 200) {
+                                var data2 = JSON.parse(xhr2.responseText);
+                                globe.addData(data2);
+                                globe.animate();
+                            }
+                        }
+                    };
+                    xhr2.send(null);
                     document.body.style.backgroundImage = 'none'; // remove loading
                 }
             }
