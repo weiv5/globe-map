@@ -104,7 +104,7 @@ DAT.Globe = function(container, opts) {
         distanceTarget = 100000;
     var padding = 40;
     var PI_HALF = Math.PI / 2;
-    var radius = 230;
+    var radius = 255;
 
     function init() {
         var shader, uniforms, material;
@@ -133,6 +133,13 @@ DAT.Globe = function(container, opts) {
         mesh = new THREE.Mesh(geometry, material);
         mesh.rotation.y = Math.PI;
         scene.add(mesh);
+
+
+        for ( var i = 0; i < geometry.faces.length; i++ ) 
+        {
+            face = geometry.faces[ i ];
+            face.color.setRGB( 255, 255, 255 );		
+        }
 
         //阴影
         shader = Shaders['atmosphere'];
@@ -168,10 +175,10 @@ DAT.Globe = function(container, opts) {
         container.addEventListener('mouseout', function() {
             overRenderer = false;
         }, false);
-        window.addEventListener('resize', onWindowResize, false);
+        //window.addEventListener('resize', onWindowResize, false);
     }
 
-    function addData(data) {
+    function addPoint(data) {
         var lat, lng, size, color, i;
         var subgeo = new THREE.Geometry();
         for (var i in data) {
@@ -205,6 +212,49 @@ DAT.Globe = function(container, opts) {
         scene.add(this.points);
     };
 
+    var t = 40;
+    var p = 0;
+    var d = 1;
+    function addLine() {
+        return;
+        if (p > t) {
+            d = -1;
+            p = t;
+            return false;
+        }
+        if (p < 0) {
+            return false;
+        }
+        var p1 = [116.4551, 40.3539];
+        var p2 = [106.3586, 38.1775];
+        var middle = [p1[0]-(p1[0]-p2[0])/2, p1[1]-(p1[1]-p2[1])/2];
+        var a = getCoordinate(p1[1], p1[0]);
+        var b = getCoordinate(middle[1], middle[0], radius + 20);
+        var c = getCoordinate(p2[1], p2[0]);
+
+        var curve = new THREE.QuadraticBezierCurve3(
+            new THREE.Vector3(a.x, a.y, a.z),
+            new THREE.Vector3(b.x, b.y, b.z),
+            new THREE.Vector3(c.x, c.y, c.z)
+        );
+
+        var geometry = new THREE.Geometry();
+        if (d > 0) {
+            for (var i = 0; i <= p; i++) {
+                geometry.vertices.push(curve.getPoint(i / t));
+            };
+            var material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
+        } else {
+            for (var i = p; i >= 0; i--) {
+                geometry.vertices.push(curve.getPoint((t - i) / t));
+            };
+            var material = new THREE.LineBasicMaterial( { color : 0xffffff } );
+        }
+        var line = new THREE.Line( geometry, material );
+        scene.add(line);
+        p += d;
+    }
+
     function addArea(data) {
         var group = new THREE.Group();
         var material = new THREE.LineBasicMaterial({
@@ -225,12 +275,13 @@ DAT.Globe = function(container, opts) {
         scene.add(group);
     }
 
-    function getCoordinate(lat, lng) {
+    function getCoordinate(lat, lng, r) {
+        r = r || radius;
         var phi = (90 - lat) * Math.PI / 180;
         var theta = (180 - lng) * Math.PI / 180;
-        var x = radius * Math.sin(phi) * Math.cos(theta);
-        var y = radius * Math.cos(phi);
-        var z = radius * Math.sin(phi) * Math.sin(theta);
+        var x = r * Math.sin(phi) * Math.cos(theta);
+        var y = r * Math.cos(phi);
+        var z = r * Math.sin(phi) * Math.sin(theta);
         return {x: x, y: y, z: z};
     }
 
@@ -315,11 +366,12 @@ DAT.Globe = function(container, opts) {
         camera.lookAt(mesh.position);
 
         renderer.render(scene, camera);
+        addLine();
     }
 
     init();
     this.animate = animate;
-    this.addData = addData;
+    this.addPoint = addPoint;
     this.addArea = addArea;
     this.renderer = renderer;
     this.scene = scene;
