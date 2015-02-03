@@ -15,7 +15,8 @@
     <script type="text/javascript" src="third-party/three.min.js"></script>
     <script type="text/javascript" src="globe.js"></script>
     <script type="text/javascript">
-    var queue = [
+    var queue = [];
+    var lines = [
         [
             [116.4551, 40.3539],
             [106.3586, 38.1775]
@@ -220,6 +221,9 @@
             }
         };
         xhr.send(null);
+        setTimeout(function() {
+            queue = lines;
+        }, 2000);
     </script>
 
 

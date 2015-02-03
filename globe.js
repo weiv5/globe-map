@@ -225,6 +225,7 @@ DAT.Globe = function(container, opts) {
                 continue;
             }
             if (f.p < 0) {
+                delete queue[i];
                 continue;
             }
             var p1 = f[0];
