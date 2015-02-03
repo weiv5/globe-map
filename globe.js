@@ -185,7 +185,7 @@ DAT.Globe = function(container, opts) {
             lat = data[i][2][1];
             lng = data[i][2][0];
             color = colorFn(0);
-            size = data[i][1];
+            size = data[i][1]/2;
 
             var c = getCoordinate(lat, lng);
             point.position.x = c.x;
@@ -213,46 +213,49 @@ DAT.Globe = function(container, opts) {
     };
 
     var t = 40;
-    var p = 0;
-    var d = 1;
-    var line = null;
     function addLine() {
-        if (p > t) {
-            p = t;
-            d = -1;
-            return false;
-        }
-        if (p < 0) {
-            return false;
-        }
-        var p1 = [116.4551, 40.3539];
-        var p2 = [106.3586, 38.1775];
-        var middle = [p1[0]-(p1[0]-p2[0])/2, p1[1]-(p1[1]-p2[1])/2];
-        var a = getCoordinate(p1[1], p1[0]);
-        var b = getCoordinate(middle[1], middle[0], radius + 20);
-        var c = getCoordinate(p2[1], p2[0]);
-
-        var curve = new THREE.QuadraticBezierCurve3(
-            new THREE.Vector3(a.x, a.y, a.z),
-            new THREE.Vector3(b.x, b.y, b.z),
-            new THREE.Vector3(c.x, c.y, c.z)
-        );
-
-        scene.remove(line);
-        var geometry = new THREE.Geometry();
-        if (d > 0) {
-            for (var i = 0; i <= p; i++) {
-                geometry.vertices.push(curve.getPoint(i / t));
+        for (var i in queue) {
+            var f = queue[i];
+            f.p = f.p || 0;
+            f.d = f.d || 1;
+            f.line = f.line || null;
+            if (f.p > t) {
+                f.p = t;
+                f.d = -1;
+                continue;
             }
-        } else {
-            for (var i = p; i >= 0; i--) {
-                geometry.vertices.push(curve.getPoint((t- i) / t));
+            if (f.p < 0) {
+                continue;
             }
+            var p1 = f[0];
+            var p2 = f[1];
+            var middle = [p1[0]-(p1[0]-p2[0])/2, p1[1]-(p1[1]-p2[1])/2];
+            var a = getCoordinate(p1[1], p1[0]);
+            var b = getCoordinate(middle[1], middle[0], radius + 20);
+            var c = getCoordinate(p2[1], p2[0]);
+
+            var curve = new THREE.QuadraticBezierCurve3(
+                new THREE.Vector3(a.x, a.y, a.z),
+                new THREE.Vector3(b.x, b.y, b.z),
+                new THREE.Vector3(c.x, c.y, c.z)
+            );
+
+            scene.remove(f.line);
+            var geometry = new THREE.Geometry();
+            if (f.d > 0) {
+                for (var i = 0; i <= f.p; i++) {
+                    geometry.vertices.push(curve.getPoint(i / t));
+                }
+            } else {
+                for (var i = f.p; i >= 0; i--) {
+                    geometry.vertices.push(curve.getPoint((t- i) / t));
+                }
+            }
+            var material = new THREE.LineBasicMaterial( { color : 0xff0000} );
+            f.line = new THREE.Line( geometry, material);
+            scene.add(f.line);
+            f.p += f.d;
         }
-        var material = new THREE.LineBasicMaterial( { color : 0xff0000} );
-        line = new THREE.Line( geometry, material );
-        scene.add(line);
-        p += d;
     }
 
     function addArea(data) {
