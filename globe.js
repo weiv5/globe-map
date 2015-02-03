@@ -214,8 +214,10 @@ DAT.Globe = function(container, opts) {
 
     var t = 40;
     function addLine() {
+        if (queue.length == 0) {
+            return false;
+        }
         for (var i in queue) {
-            console.log(queue[i]);
             var f = queue[i];
             f.p = f.p || 0;
             f.d = f.d || 1;
