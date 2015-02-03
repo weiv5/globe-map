@@ -214,9 +214,15 @@ DAT.Globe = function(container, opts) {
 
     var t = 40;
     var p = 0;
+    var d = 1;
+    var line = null;
     function addLine() {
         if (p > t) {
             p = t;
+            d = -1;
+            return false;
+        }
+        if (p < 0) {
             return false;
         }
         var p1 = [116.4551, 40.3539];
@@ -232,14 +238,21 @@ DAT.Globe = function(container, opts) {
             new THREE.Vector3(c.x, c.y, c.z)
         );
 
+        scene.remove(line);
         var geometry = new THREE.Geometry();
-        for (var i = 0; i <= p; i++) {
-            geometry.vertices.push(curve.getPoint(i / t));
-        };
-        var material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
-        var line = new THREE.Line( geometry, material );
+        if (d > 0) {
+            for (var i = 0; i <= p; i++) {
+                geometry.vertices.push(curve.getPoint(i / t));
+            }
+        } else {
+            for (var i = p; i >= 0; i--) {
+                geometry.vertices.push(curve.getPoint((t- i) / t));
+            }
+        }
+        var material = new THREE.LineBasicMaterial( { color : 0xff0000} );
+        line = new THREE.Line( geometry, material );
         scene.add(line);
-        p ++;
+        p += d;
     }
 
     function addArea(data) {
