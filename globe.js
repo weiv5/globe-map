@@ -105,7 +105,7 @@ DAT.Globe = function(container, opts) {
         distanceTarget = 100000;
     var padding = 40;
     var PI_HALF = Math.PI / 2;
-    var radius = 255;
+    var radius = 300;
 
     function init() {
         var shader, uniforms, material;
