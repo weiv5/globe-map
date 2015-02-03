@@ -215,6 +215,7 @@ DAT.Globe = function(container, opts) {
     var t = 40;
     function addLine() {
         for (var i in queue) {
+            console.log(queue[i]);
             var f = queue[i];
             f.p = f.p || 0;
             f.d = f.d || 1;
@@ -225,11 +226,11 @@ DAT.Globe = function(container, opts) {
                 continue;
             }
             if (f.p < 0) {
-                delete queue[i];
+                queue.splice(i, 1);
                 continue;
             }
-            var p1 = f[0];
-            var p2 = f[1];
+            var p1 = f.from;
+            var p2 = f.to;
             var middle = [p1[0]-(p1[0]-p2[0])/2, p1[1]-(p1[1]-p2[1])/2];
             var a = getCoordinate(p1[1], p1[0]);
             var b = getCoordinate(middle[1], middle[0], radius + 20);
