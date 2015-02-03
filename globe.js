@@ -91,9 +91,10 @@ DAT.Globe = function(container, opts) {
             x: 0,
             y: 0
         },
+        //初始位置
         target = {
             x: Math.PI / 10.0,
-            y: Math.PI / 5.0
+            y: Math.PI / 8.0
         },
         targetOnDown = {
             x: 0,
@@ -175,7 +176,6 @@ DAT.Globe = function(container, opts) {
         container.addEventListener('mouseout', function() {
             overRenderer = false;
         }, false);
-        //window.addEventListener('resize', onWindowResize, false);
     }
 
     function addPoint(data) {
@@ -214,15 +214,9 @@ DAT.Globe = function(container, opts) {
 
     var t = 40;
     var p = 0;
-    var d = 1;
     function addLine() {
-        return;
         if (p > t) {
-            d = -1;
             p = t;
-            return false;
-        }
-        if (p < 0) {
             return false;
         }
         var p1 = [116.4551, 40.3539];
@@ -239,20 +233,13 @@ DAT.Globe = function(container, opts) {
         );
 
         var geometry = new THREE.Geometry();
-        if (d > 0) {
-            for (var i = 0; i <= p; i++) {
-                geometry.vertices.push(curve.getPoint(i / t));
-            };
-            var material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
-        } else {
-            for (var i = p; i >= 0; i--) {
-                geometry.vertices.push(curve.getPoint((t - i) / t));
-            };
-            var material = new THREE.LineBasicMaterial( { color : 0xffffff } );
-        }
+        for (var i = 0; i <= p; i++) {
+            geometry.vertices.push(curve.getPoint(i / t));
+        };
+        var material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
         var line = new THREE.Line( geometry, material );
         scene.add(line);
-        p += d;
+        p ++;
     }
 
     function addArea(data) {
