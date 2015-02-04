@@ -257,17 +257,11 @@ DAT.Globe = function(container, opts) {
 
     function addArea(data) {
         var group = new THREE.Group();
-        var colors = [0xFFB6C1, 0xFF69B4, 0xEE82EE, 0x778899, 0xE1FFFF, 0xF5FFFA, 0xFAFAD2, 0xFF8C00];
-        var cc = 0;
         for (var i in data) {
             if (data[i][0] == 0) {
-                var color = colors[cc];
-                cc ++;
-                if (cc == 8) {
-                    cc = 0;
-                }
-            } else {
                 color = 0xffffff;
+            } else {
+                color = 0xffdb3d;
             }
             var material = new THREE.LineBasicMaterial({
                color : color
