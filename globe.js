@@ -105,7 +105,7 @@ DAT.Globe = function(container, opts) {
         distanceTarget = 100000;
     var padding = 40;
     var PI_HALF = Math.PI / 2;
-    var radius = 260;
+    var radius = 255;
 
     function init() {
         var shader, uniforms, material;
@@ -134,13 +134,6 @@ DAT.Globe = function(container, opts) {
         mesh = new THREE.Mesh(geometry, material);
         mesh.rotation.y = Math.PI;
         scene.add(mesh);
-
-
-        for ( var i = 0; i < geometry.faces.length; i++ ) 
-        {
-            face = geometry.faces[ i ];
-            face.color.setRGB( 255, 255, 255 );		
-        }
 
         //阴影
         shader = Shaders['atmosphere'];
