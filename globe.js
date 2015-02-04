@@ -262,7 +262,6 @@ DAT.Globe = function(container, opts) {
         for (var i in data) {
             if (data[i][0] == 0) {
                 var color = colors[cc];
-                console.log(color, cc);
                 cc ++;
                 if (cc == 8) {
                     cc = 0;
