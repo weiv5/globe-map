@@ -264,10 +264,22 @@ DAT.Globe = function(container, opts) {
 
     function addArea(data) {
         var group = new THREE.Group();
-        var material = new THREE.LineBasicMaterial({
-            color: 0xffffff
-        });
+        var colors = [0xFFB6C1, 0xFF69B4, 0xEE82EE, 0x778899, 0xE1FFFF, 0xF5FFFA, 0xFAFAD2, 0xFF8C00];
+        var cc = 0;
         for (var i in data) {
+            if (data[i][0] == 0) {
+                var color = colors[cc];
+                console.log(color, cc);
+                cc ++;
+                if (cc == 8) {
+                    cc = 0;
+                }
+            } else {
+                color = 0xffffff;
+            }
+            var material = new THREE.LineBasicMaterial({
+               color : color
+            });
             for (j in data[i][3]) {
                 var geometry = new THREE.Geometry();
                 for (var k in data[i][3][j]) {
