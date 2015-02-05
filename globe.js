@@ -128,7 +128,6 @@ DAT.Globe = function(container, opts) {
             uniforms: uniforms,
             vertexShader: shader.vertexShader,
             fragmentShader: shader.fragmentShader
-
         });
         mesh = new THREE.Mesh(geometry, material);
         mesh.rotation.y = Math.PI;
@@ -247,7 +246,7 @@ DAT.Globe = function(container, opts) {
                     geometry.vertices.push(curve.getPoint((t- i) / t));
                 }
             }
-            var material = new THREE.LineBasicMaterial({color : 0x9ACD32});
+            var material = new THREE.LineBasicMaterial({color : 0xFF4500});
             f.line = new THREE.Line( geometry, material);
             scene.add(f.line);
             f.p += f.d;
