@@ -17,8 +17,7 @@ DAT.Globe = function(container, opts) {
     opts = opts || {};
 
     var colorFn = opts.colorFn || function(x) {
-        var c = new THREE.Color();
-        c.setHSL((0.6 - (x * 0.5)), 1.0, 0.5);
+        var c = new THREE.Color(0xFFA500);
         return c;
     };
     var imgDir = opts.imgDir || '';
@@ -248,7 +247,7 @@ DAT.Globe = function(container, opts) {
                     geometry.vertices.push(curve.getPoint((t- i) / t));
                 }
             }
-            var material = new THREE.LineBasicMaterial( { color : 0xff0000} );
+            var material = new THREE.LineBasicMaterial({color : 0x9ACD32});
             f.line = new THREE.Line( geometry, material);
             scene.add(f.line);
             f.p += f.d;
@@ -262,7 +261,7 @@ DAT.Globe = function(container, opts) {
                 continue;
                 color = 0xffffff;
             } else {
-                color = 0xffdb3d;
+                color = 0x999999;
             }
             var material = new THREE.LineBasicMaterial({
                color : color
