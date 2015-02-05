@@ -170,13 +170,12 @@ DAT.Globe = function(container, opts) {
     }
 
     function addPoint(data) {
-        var lat, lng, size, color, i;
         var subgeo = new THREE.Geometry();
         for (var i in data) {
-            lat = data[i][2][1];
-            lng = data[i][2][0];
-            color = colorFn(0);
-            size = data[i][1]/2;
+            var lat = data[i][2][1];
+            var lng = data[i][2][0];
+            var color = colorFn(0);
+            var size = data[i][1]/2;
 
             var c = getCoordinate(lat, lng);
             point.position.x = c.x;
