@@ -259,6 +259,7 @@ DAT.Globe = function(container, opts) {
         var group = new THREE.Group();
         for (var i in data) {
             if (data[i][0] == 0) {
+                continue;
                 color = 0xffffff;
             } else {
                 color = 0xffdb3d;
