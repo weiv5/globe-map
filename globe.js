@@ -120,7 +120,7 @@ DAT.Globe = function(container, opts) {
         scene = new THREE.Scene();
 
         //地图
-        var geometry = new THREE.SphereGeometry(radius, 40, 30);
+        var geometry = new THREE.SphereGeometry(radius, 32, 32);
         shader = Shaders['earth'];
         uniforms = THREE.UniformsUtils.clone(shader.uniforms);
         uniforms['texture'].value = THREE.ImageUtils.loadTexture(imgDir + 'world.jpg');
