@@ -170,6 +170,9 @@ DAT.Globe = function(container, opts) {
     }
 
     function addPoint(data) {
+        if (typeof this.points !== "undefined") {
+            scene.remove(this.points);
+        }
         var subgeo = new THREE.Geometry();
         for (var i in data) {
             var lat = data[i][2][1];

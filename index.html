@@ -168,6 +168,10 @@
                     var data = JSON.parse(xhr.responseText);
                     globe.addArea(data[0]);
                     globe.addPoint(data[1]);
+                    setTimeout(function(){
+                        data[1][343][1] = 10;
+                        globe.addPoint(data[1]);
+                    }, 1000);
                 }
             }
         };
