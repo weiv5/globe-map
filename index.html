@@ -169,10 +169,16 @@
                     globe.addPoint(data[1]);
                     setTimeout(function(){
                         for (var i in data[1]) {
-                            data[1][i][1] /= 2;
+                            data[1][i][1] *= 1.5;
                         }
                         globe.addPoint(data[1]);
                     }, 1000);
+                    setTimeout(function(){
+                        for (var i in data[1]) {
+                            data[1][i][1] *= 1.2;
+                        }
+                        globe.addPoint(data[1]);
+                    }, 2000);
                 }
             }
         };
