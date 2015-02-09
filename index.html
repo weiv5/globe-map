@@ -159,6 +159,7 @@
         }];
 
         var globe = DAT.Globe(document.getElementById('container'));
+        globe.animate();
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'map.json', true);
         xhr.onreadystatechange = function(e) {
@@ -167,14 +168,19 @@
                     var data = JSON.parse(xhr.responseText);
                     globe.addArea(data[0]);
                     globe.addPoint(data[1]);
-                    globe.animate();
                 }
             }
         };
         xhr.send(null);
         setTimeout(function() {
-            queue = lines;
+            for (var i in lines) {
+                queue.push({from: lines[i].from, to: lines[i].to});
+            }
         }, 2000);
+        setInterval(function() {
+            var i = Math.ceil(Math.random()*10);
+            queue.push({from: lines[i].from, to: lines[i].to});
+        }, 500);
     </script>
 
 
