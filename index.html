@@ -168,7 +168,9 @@
                     globe.addArea(data[0]);
                     globe.addPoint(data[1]);
                     setTimeout(function(){
-                        data[1][343][1] = 10;
+                        for (var i in data[1]) {
+                            data[1][i][1] /= 2;
+                        }
                         globe.addPoint(data[1]);
                     }, 1000);
                 }
